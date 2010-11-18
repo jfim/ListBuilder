@@ -11,9 +11,11 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.print.PageFormat;
+import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+
 
 /**
  * Document me!
@@ -21,37 +23,41 @@ import java.beans.PropertyChangeListener;
  * @author jfim
  */
 public class MatrixListBuilderPanel extends JPanel {
-	private MatrixListModel matrixListModel;
-
-	private JLabel titleTextLabel = new JLabel();
-	private JTextField titleTextTextField = new JTextField();
-	private JLabel fontLabel = new JLabel();
-	private JLabel fontDisplayLabel = new JLabel();
 	private JButton fontChooseButton = new JButton();
-
-	private JLabel xLabel = new JLabel();
-	private JSpinner xSpinner = new JSpinner(new SpinnerNumberModel(1, 0, 200, 1));
-	private JLabel yLabel = new JLabel();
-	private JSpinner ySpinner = new JSpinner(new SpinnerNumberModel(1, 0, 200, 1));
+	private JButton printButton = new JButton();
+	private JLabel fontDisplayLabel = new JLabel();
+	private JLabel fontLabel = new JLabel();
 	private JLabel sizeLabel = new JLabel();
-	private JSpinner sizeSpinner = new JSpinner(new SpinnerNumberModel(1, 0, 200, 1));
 	private JLabel spacingLabel = new JLabel();
-	private JSpinner spacingSpinner = new JSpinner(new SpinnerNumberModel(1, 0, 200, 1));
 	private JLabel strokeWidthLabel = new JLabel();
-	private JSpinner strokeWidthSpinner = new JSpinner(new SpinnerNumberModel(1, 0, 10, 1));
-
+	private JLabel titleTextLabel = new JLabel();
+	private JLabel xLabel = new JLabel();
+	private JLabel yLabel = new JLabel();
+	private JSpinner sizeSpinner = new JSpinner(new SpinnerNumberModel(1, 0,
+			200, 1));
+	private JSpinner spacingSpinner = new JSpinner(new SpinnerNumberModel(1, 0,
+			200, 1));
+	private JSpinner strokeWidthSpinner = new JSpinner(new SpinnerNumberModel(1,
+			0,
+			10,
+			1));
+	private JSpinner xSpinner = new JSpinner(new SpinnerNumberModel(1, 0, 200, 1));
+	private JSpinner ySpinner = new JSpinner(new SpinnerNumberModel(1, 0, 200, 1));
+	private JTextField titleTextTextField = new JTextField();
+	private MatrixListModel matrixListModel;
+	private PageFormat pageFormat;
 	private PrintPreviewComponent printPreviewComponent;
 
-	private JButton printButton = new JButton();
-
 	@Inject
-	public MatrixListBuilderPanel(final MatrixListModel matrixListModel, MatrixListPrintable matrixListPrintable) {
+	public MatrixListBuilderPanel(final MatrixListModel matrixListModel,
+	                              final MatrixListPrintable matrixListPrintable) {
 		this.matrixListModel = matrixListModel;
 
 		PrinterJob printerJob = PrinterJob.getPrinterJob();
-		PageFormat pageFormat = printerJob.defaultPage();
+		pageFormat = printerJob.defaultPage();
 		pageFormat.setOrientation(PageFormat.LANDSCAPE);
-		printPreviewComponent = new PrintPreviewComponent(matrixListPrintable, pageFormat);
+		printPreviewComponent = new PrintPreviewComponent(matrixListPrintable,
+				pageFormat);
 
 		setLayout(new MigLayout("wrap 1", "[grow]", "[][][grow, fill][]"));
 
@@ -88,22 +94,42 @@ public class MatrixListBuilderPanel extends JPanel {
 		BeanProperty<MatrixListModel, Integer> spacingProperty = BeanProperty.create("spacing");
 		BeanProperty<MatrixListModel, Integer> strokeWidthProperty = BeanProperty.create("strokeWidth");
 
-		Bindings.createAutoBinding(AutoBinding.UpdateStrategy.READ_WRITE, matrixListModel, titleTextProperty, titleTextTextField, textFieldTextProperty).bind();
+		Bindings.createAutoBinding(AutoBinding.UpdateStrategy.READ_WRITE,
+				matrixListModel, titleTextProperty,
+				titleTextTextField, textFieldTextProperty)
+				.bind();
 
-		final AutoBinding<MatrixListModel, String, JLabel, String> fontDisplayBinding = Bindings.createAutoBinding(AutoBinding.UpdateStrategy.READ, matrixListModel, fontNameProperty, fontDisplayLabel, labelTextProperty);
+		final AutoBinding<MatrixListModel, String, JLabel, String> fontDisplayBinding = Bindings.createAutoBinding(AutoBinding.UpdateStrategy.READ,
+				matrixListModel,
+				fontNameProperty,
+				fontDisplayLabel,
+				labelTextProperty);
 		fontDisplayBinding.bind();
 
-		Bindings.createAutoBinding(AutoBinding.UpdateStrategy.READ_WRITE, matrixListModel, xProperty, xSpinner, spinnerValueIntProperty).bind();
-		Bindings.createAutoBinding(AutoBinding.UpdateStrategy.READ_WRITE, matrixListModel, yProperty, ySpinner, spinnerValueIntProperty).bind();
-		Bindings.createAutoBinding(AutoBinding.UpdateStrategy.READ_WRITE, matrixListModel, sizeProperty, sizeSpinner, spinnerValueIntProperty).bind();
-		Bindings.createAutoBinding(AutoBinding.UpdateStrategy.READ_WRITE, matrixListModel, spacingProperty, spacingSpinner, spinnerValueIntProperty).bind();
-		Bindings.createAutoBinding(AutoBinding.UpdateStrategy.READ_WRITE, matrixListModel, strokeWidthProperty, strokeWidthSpinner, spinnerValueIntProperty).bind();
+		Bindings.createAutoBinding(AutoBinding.UpdateStrategy.READ_WRITE,
+				matrixListModel, xProperty, xSpinner,
+				spinnerValueIntProperty).bind();
+		Bindings.createAutoBinding(AutoBinding.UpdateStrategy.READ_WRITE,
+				matrixListModel, yProperty, ySpinner,
+				spinnerValueIntProperty).bind();
+		Bindings.createAutoBinding(AutoBinding.UpdateStrategy.READ_WRITE,
+				matrixListModel, sizeProperty, sizeSpinner,
+				spinnerValueIntProperty).bind();
+		Bindings.createAutoBinding(AutoBinding.UpdateStrategy.READ_WRITE,
+				matrixListModel, spacingProperty,
+				spacingSpinner, spinnerValueIntProperty)
+				.bind();
+		Bindings.createAutoBinding(AutoBinding.UpdateStrategy.READ_WRITE,
+				matrixListModel, strokeWidthProperty,
+				strokeWidthSpinner, spinnerValueIntProperty)
+				.bind();
 
 		fontChooseButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				JFontChooser fontChooser = new JFontChooser();
-				fontChooser.showFontDialog(MatrixListBuilderPanel.this, "Pick a font");
+				fontChooser.showFontDialog(MatrixListBuilderPanel.this,
+						"Pick a font");
 				matrixListModel.setFont(fontChooser.getSelectedFont());
 				fontDisplayBinding.unbind();
 				fontDisplayBinding.bind();
@@ -119,6 +145,22 @@ public class MatrixListBuilderPanel extends JPanel {
 						printPreviewComponent.repaint();
 					}
 				});
+			}
+		});
+
+		printButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				PrinterJob printerJob = PrinterJob.getPrinterJob();
+				printerJob.setJobName(matrixListModel.getTitleText());
+				printerJob.setPrintable(matrixListPrintable, pageFormat);
+				if(printerJob.printDialog()) {
+					try {
+						printerJob.print();
+					} catch (PrinterException e1) {
+						e1.printStackTrace();
+					}
+				}
 			}
 		});
 	}
