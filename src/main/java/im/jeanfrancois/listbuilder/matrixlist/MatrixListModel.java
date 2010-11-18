@@ -13,13 +13,13 @@ import java.beans.PropertyChangeSupport;
 public class MatrixListModel {
 	private PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
 
-	private String titleText = "";
-	private Font font = new Font(null);
-	private int x;
-	private int y;
-	private int size;
-	private int spacing;
-	private int strokeWidth;
+	private String titleText = "My matrix list";
+	private Font font = new Font("SansSerif", 0, 24);
+	private int x = 28;
+	private int y = 18;
+	private int size = 15;
+	private int spacing = 3;
+	private int strokeWidth = 1;
 
 	public int getStrokeWidth() {
 		return strokeWidth;
