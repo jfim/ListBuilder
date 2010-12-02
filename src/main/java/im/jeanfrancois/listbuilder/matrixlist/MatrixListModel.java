@@ -19,13 +19,13 @@ public class MatrixListModel {
 	private int y = 18;
 	private int size = 15;
 	private int spacing = 3;
-	private int strokeWidth = 1;
+	private double strokeWidth = 1;
 
-	public int getStrokeWidth() {
+	public double getStrokeWidth() {
 		return strokeWidth;
 	}
 
-	public void setStrokeWidth(int newStrokeWidth) {
+	public void setStrokeWidth(double newStrokeWidth) {
 		propertyChangeSupport.firePropertyChange("strokeWidth", strokeWidth, newStrokeWidth);
 		this.strokeWidth = newStrokeWidth;
 	}

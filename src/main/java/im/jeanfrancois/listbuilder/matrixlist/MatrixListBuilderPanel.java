@@ -37,10 +37,10 @@ public class MatrixListBuilderPanel extends JPanel {
 			200, 1));
 	private JSpinner spacingSpinner = new JSpinner(new SpinnerNumberModel(1, 0,
 			200, 1));
-	private JSpinner strokeWidthSpinner = new JSpinner(new SpinnerNumberModel(1,
-			0,
-			10,
-			1));
+	private JSpinner strokeWidthSpinner = new JSpinner(new SpinnerNumberModel(1.0,
+			0.0,
+			10.0,
+			0.1));
 	private JSpinner xSpinner = new JSpinner(new SpinnerNumberModel(1, 0, 200, 1));
 	private JSpinner ySpinner = new JSpinner(new SpinnerNumberModel(1, 0, 200, 1));
 	private JTextField titleTextTextField = new JTextField();

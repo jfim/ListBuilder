@@ -30,6 +30,8 @@ public class MatrixListPrintable implements Printable {
 		}
 
 		Graphics2D g2d = (Graphics2D) graphics;
+		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+		g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 		g2d.setFont(matrixListModel.getFont());
 
 		FontMetrics fontMetrics = g2d.getFontMetrics();
@@ -42,7 +44,7 @@ public class MatrixListPrintable implements Printable {
 						titleBounds.getHeight()));
 
 		// Draw the boxes
-		g2d.setStroke(new BasicStroke(matrixListModel.getStrokeWidth()));
+		g2d.setStroke(new BasicStroke((float) matrixListModel.getStrokeWidth()));
 
 		final int boxSize = matrixListModel.getSize();
 		final int boxCellSize = boxSize + matrixListModel.getSpacing();
