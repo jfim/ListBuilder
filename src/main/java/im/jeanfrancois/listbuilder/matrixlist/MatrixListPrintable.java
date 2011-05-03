@@ -85,7 +85,7 @@ public class MatrixListPrintable implements Printable {
 		}
 
         // Draw the matrix code
-        final int xStart = (int) (pageFormat.getImageableX() + (matrixListModel.getX() * boxCellSize) + boxSize);
+        final int xStart = (int) (pageFormat.getImageableX() + (matrixListModel.getX() * boxCellSize));
         final int xEnd = (int) (pageFormat.getImageableX() + pageFormat.getImageableWidth());
         final int yStart = (int) pageFormat.getImageableY();
         final int yEnd = (int) (pageFormat.getImageableY() + pageFormat.getImageableHeight() - matrixListModel.getY() * boxCellSize);
