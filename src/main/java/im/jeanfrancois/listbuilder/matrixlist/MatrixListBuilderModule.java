@@ -2,6 +2,8 @@ package im.jeanfrancois.listbuilder.matrixlist;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Scopes;
+import im.jeanfrancois.listbuilder.code.QRCodeTodoListCodeImageGenerator;
+import im.jeanfrancois.listbuilder.code.TodoListCodeImageGenerator;
 import net.guts.gui.application.AppLifecycleStarter;
 import net.guts.gui.resource.Resources;
 

@@ -1,4 +1,4 @@
-package im.jeanfrancois.listbuilder.matrixlist;
+package im.jeanfrancois.listbuilder.code;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;

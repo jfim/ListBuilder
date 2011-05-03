@@ -1,6 +1,7 @@
 package im.jeanfrancois.listbuilder.matrixlist;
 
 import com.google.inject.Inject;
+import im.jeanfrancois.listbuilder.code.TodoListCodeImageGenerator;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
