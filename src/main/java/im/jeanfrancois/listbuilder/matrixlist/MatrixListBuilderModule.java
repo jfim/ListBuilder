@@ -10,12 +10,13 @@ import net.guts.gui.resource.Resources;
  *
  * @author jfim
  */
-public class MatrixListBuilderModule extends AbstractModule{
+public class MatrixListBuilderModule extends AbstractModule {
 
-	@Override
-	protected void configure() {
-		bind(AppLifecycleStarter.class).to(AppLifecycle.class);
-		bind(MatrixListModel.class).in(Scopes.SINGLETON);
-		Resources.bindRootBundle(binder(), MatrixListBuilderModule.class, "matrixlistbuilder");
-	}
+    @Override
+    protected void configure() {
+        bind(AppLifecycleStarter.class).to(AppLifecycle.class);
+        bind(MatrixListModel.class).in(Scopes.SINGLETON);
+        bind(TodoListCodeImageGenerator.class).to(QRCodeTodoListCodeImageGenerator.class);
+        Resources.bindRootBundle(binder(), MatrixListBuilderModule.class, "matrixlistbuilder");
+    }
 }

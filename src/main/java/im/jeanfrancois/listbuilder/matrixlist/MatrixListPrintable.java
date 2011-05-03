@@ -16,11 +16,13 @@ import java.awt.print.PrinterException;
  */
 public class MatrixListPrintable implements Printable {
 	private MatrixListModel matrixListModel;
+    private TodoListCodeImageGenerator todoListCodeImageGenerator;
 
 	@Inject
-	public MatrixListPrintable(MatrixListModel matrixListModel) {
+	public MatrixListPrintable(MatrixListModel matrixListModel, TodoListCodeImageGenerator todoListCodeImageGenerator) {
 		this.matrixListModel = matrixListModel;
-	}
+        this.todoListCodeImageGenerator = todoListCodeImageGenerator;
+    }
 
 	@Override
 	public int print(Graphics graphics, PageFormat pageFormat, int pageIndex)
@@ -81,6 +83,14 @@ public class MatrixListPrintable implements Printable {
 			final int xEnd = (int) (pageFormat.getImageableX() + pageFormat.getImageableWidth());
 			g2d.drawLine(xStart, yPos, xEnd, yPos);
 		}
+
+        // Draw the matrix code
+        final int xStart = (int) (pageFormat.getImageableX() + (matrixListModel.getX() * boxCellSize) + boxSize);
+        final int xEnd = (int) (pageFormat.getImageableX() + pageFormat.getImageableWidth());
+        final int yStart = (int) pageFormat.getImageableY();
+        final int yEnd = (int) (pageFormat.getImageableY() + pageFormat.getImageableHeight() - matrixListModel.getY() * boxCellSize);
+        final int smallestDimension = Math.min(xEnd - xStart, yEnd - yStart);
+        g2d.drawImage(todoListCodeImageGenerator.generateCodeImageForTodoListId(matrixListModel.getUuid().toString()), xStart, yEnd - smallestDimension, smallestDimension, smallestDimension, null);
 
 		return PAGE_EXISTS;
 	}

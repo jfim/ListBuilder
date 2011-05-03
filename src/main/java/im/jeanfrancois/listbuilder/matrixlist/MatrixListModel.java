@@ -3,6 +3,7 @@ package im.jeanfrancois.listbuilder.matrixlist;
 import java.awt.*;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.util.UUID;
 
 
 /**
@@ -20,12 +21,22 @@ public class MatrixListModel {
 	private int size = 15;
 	private int spacing = 3;
 	private double strokeWidth = 1;
+    private UUID uuid = UUID.randomUUID();
 
 	public double getStrokeWidth() {
 		return strokeWidth;
 	}
 
-	public void setStrokeWidth(double newStrokeWidth) {
+    public UUID getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(UUID uuid) {
+        propertyChangeSupport.firePropertyChange("uuid", this.uuid, uuid);
+        this.uuid = uuid;
+    }
+
+    public void setStrokeWidth(double newStrokeWidth) {
 		propertyChangeSupport.firePropertyChange("strokeWidth", strokeWidth, newStrokeWidth);
 		this.strokeWidth = newStrokeWidth;
 	}

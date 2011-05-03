@@ -23,145 +23,150 @@ import java.beans.PropertyChangeListener;
  * @author jfim
  */
 public class MatrixListBuilderPanel extends JPanel {
-	private JButton fontChooseButton = new JButton();
-	private JButton printButton = new JButton();
-	private JLabel fontDisplayLabel = new JLabel();
-	private JLabel fontLabel = new JLabel();
-	private JLabel sizeLabel = new JLabel();
-	private JLabel spacingLabel = new JLabel();
-	private JLabel strokeWidthLabel = new JLabel();
-	private JLabel titleTextLabel = new JLabel();
-	private JLabel xLabel = new JLabel();
-	private JLabel yLabel = new JLabel();
-	private JSpinner sizeSpinner = new JSpinner(new SpinnerNumberModel(1, 0,
-			200, 1));
-	private JSpinner spacingSpinner = new JSpinner(new SpinnerNumberModel(1, 0,
-			200, 1));
-	private JSpinner strokeWidthSpinner = new JSpinner(new SpinnerNumberModel(1.0,
-			0.0,
-			10.0,
-			0.1));
-	private JSpinner xSpinner = new JSpinner(new SpinnerNumberModel(1, 0, 200, 1));
-	private JSpinner ySpinner = new JSpinner(new SpinnerNumberModel(1, 0, 200, 1));
-	private JTextField titleTextTextField = new JTextField();
-	private MatrixListModel matrixListModel;
-	private PageFormat pageFormat;
-	private PrintPreviewComponent printPreviewComponent;
+    private JButton fontChooseButton = new JButton();
+    private JButton printButton = new JButton();
+    private JLabel fontDisplayLabel = new JLabel();
+    private JLabel fontLabel = new JLabel();
+    private JLabel sizeLabel = new JLabel();
+    private JLabel spacingLabel = new JLabel();
+    private JLabel strokeWidthLabel = new JLabel();
+    private JLabel titleTextLabel = new JLabel();
+    private JLabel xLabel = new JLabel();
+    private JLabel yLabel = new JLabel();
+    private JSpinner sizeSpinner = new JSpinner(new SpinnerNumberModel(1, 0,
+            200, 1));
+    private JSpinner spacingSpinner = new JSpinner(new SpinnerNumberModel(1, 0,
+            200, 1));
+    private JSpinner strokeWidthSpinner = new JSpinner(new SpinnerNumberModel(1.0,
+            0.0,
+            10.0,
+            0.1));
+    private JSpinner xSpinner = new JSpinner(new SpinnerNumberModel(1, 0, 200, 1));
+    private JSpinner ySpinner = new JSpinner(new SpinnerNumberModel(1, 0, 200, 1));
+    private JTextField titleTextTextField = new JTextField();
+    private JLabel uuidLabel = new JLabel();
+    private MatrixListModel matrixListModel;
+    private PageFormat pageFormat;
+    private PrintPreviewComponent printPreviewComponent;
 
-	@Inject
-	public MatrixListBuilderPanel(final MatrixListModel matrixListModel,
-	                              final MatrixListPrintable matrixListPrintable) {
-		this.matrixListModel = matrixListModel;
+    @Inject
+    public MatrixListBuilderPanel(final MatrixListModel matrixListModel,
+                                  final MatrixListPrintable matrixListPrintable) {
+        this.matrixListModel = matrixListModel;
 
-		PrinterJob printerJob = PrinterJob.getPrinterJob();
-		pageFormat = printerJob.defaultPage();
-		pageFormat.setOrientation(PageFormat.LANDSCAPE);
-		printPreviewComponent = new PrintPreviewComponent(matrixListPrintable,
-				pageFormat);
+        PrinterJob printerJob = PrinterJob.getPrinterJob();
+        pageFormat = printerJob.defaultPage();
+        pageFormat.setOrientation(PageFormat.LANDSCAPE);
+        printPreviewComponent = new PrintPreviewComponent(matrixListPrintable,
+                pageFormat);
 
-		setLayout(new MigLayout("wrap 1", "[grow]", "[][][grow, fill][]"));
+        setLayout(new MigLayout("wrap 1", "[grow]", "[][][grow, fill][]"));
 
-		add(titleTextLabel, "split 5");
-		add(titleTextTextField);
-		add(fontLabel, "gap unrelated");
-		add(fontDisplayLabel);
-		add(fontChooseButton);
+        add(titleTextLabel, "split 6");
+        add(titleTextTextField);
+        add(fontLabel, "gap unrelated");
+        add(fontDisplayLabel);
+        add(fontChooseButton);
 
-		add(xLabel, "split 10");
-		add(xSpinner);
-		add(yLabel, "gap unrelated");
-		add(ySpinner);
-		add(sizeLabel, "gap unrelated");
-		add(sizeSpinner);
-		add(spacingLabel, "gap unrelated");
-		add(spacingSpinner);
-		add(strokeWidthLabel, "gap unrelated");
-		add(strokeWidthSpinner);
+        add(uuidLabel);
 
-		add(printPreviewComponent, "grow");
+        add(xLabel, "split 10");
+        add(xSpinner);
+        add(yLabel, "gap unrelated");
+        add(ySpinner);
+        add(sizeLabel, "gap unrelated");
+        add(sizeSpinner);
+        add(spacingLabel, "gap unrelated");
+        add(spacingSpinner);
+        add(strokeWidthLabel, "gap unrelated");
+        add(strokeWidthSpinner);
 
-		add(printButton, "span, align right");
+        add(printPreviewComponent, "grow");
 
-		BeanProperty<JTextField, String> textFieldTextProperty = BeanProperty.create("text");
-		BeanProperty<JLabel, String> labelTextProperty = BeanProperty.create("text");
-		BeanProperty<JSpinner, Integer> spinnerValueIntProperty = BeanProperty.create("value");
+        add(printButton, "span, align right");
 
-		BeanProperty<MatrixListModel, String> titleTextProperty = BeanProperty.create("titleText");
-		BeanProperty<MatrixListModel, String> fontNameProperty = BeanProperty.create("font.name");
-		BeanProperty<MatrixListModel, Integer> xProperty = BeanProperty.create("x");
-		BeanProperty<MatrixListModel, Integer> yProperty = BeanProperty.create("y");
-		BeanProperty<MatrixListModel, Integer> sizeProperty = BeanProperty.create("size");
-		BeanProperty<MatrixListModel, Integer> spacingProperty = BeanProperty.create("spacing");
-		BeanProperty<MatrixListModel, Integer> strokeWidthProperty = BeanProperty.create("strokeWidth");
+        BeanProperty<JTextField, String> textFieldTextProperty = BeanProperty.create("text");
+        BeanProperty<JLabel, String> labelTextProperty = BeanProperty.create("text");
+        BeanProperty<JSpinner, Integer> spinnerValueIntProperty = BeanProperty.create("value");
 
-		Bindings.createAutoBinding(AutoBinding.UpdateStrategy.READ_WRITE,
-				matrixListModel, titleTextProperty,
-				titleTextTextField, textFieldTextProperty)
-				.bind();
+        BeanProperty<MatrixListModel, String> titleTextProperty = BeanProperty.create("titleText");
+        BeanProperty<MatrixListModel, String> fontNameProperty = BeanProperty.create("font.name");
+        BeanProperty<MatrixListModel, Integer> xProperty = BeanProperty.create("x");
+        BeanProperty<MatrixListModel, Integer> yProperty = BeanProperty.create("y");
+        BeanProperty<MatrixListModel, Integer> sizeProperty = BeanProperty.create("size");
+        BeanProperty<MatrixListModel, Integer> spacingProperty = BeanProperty.create("spacing");
+        BeanProperty<MatrixListModel, Integer> strokeWidthProperty = BeanProperty.create("strokeWidth");
 
-		final AutoBinding<MatrixListModel, String, JLabel, String> fontDisplayBinding = Bindings.createAutoBinding(AutoBinding.UpdateStrategy.READ,
-				matrixListModel,
-				fontNameProperty,
-				fontDisplayLabel,
-				labelTextProperty);
-		fontDisplayBinding.bind();
+        Bindings.createAutoBinding(AutoBinding.UpdateStrategy.READ_WRITE,
+                matrixListModel, titleTextProperty,
+                titleTextTextField, textFieldTextProperty)
+                .bind();
 
-		Bindings.createAutoBinding(AutoBinding.UpdateStrategy.READ_WRITE,
-				matrixListModel, xProperty, xSpinner,
-				spinnerValueIntProperty).bind();
-		Bindings.createAutoBinding(AutoBinding.UpdateStrategy.READ_WRITE,
-				matrixListModel, yProperty, ySpinner,
-				spinnerValueIntProperty).bind();
-		Bindings.createAutoBinding(AutoBinding.UpdateStrategy.READ_WRITE,
-				matrixListModel, sizeProperty, sizeSpinner,
-				spinnerValueIntProperty).bind();
-		Bindings.createAutoBinding(AutoBinding.UpdateStrategy.READ_WRITE,
-				matrixListModel, spacingProperty,
-				spacingSpinner, spinnerValueIntProperty)
-				.bind();
-		Bindings.createAutoBinding(AutoBinding.UpdateStrategy.READ_WRITE,
-				matrixListModel, strokeWidthProperty,
-				strokeWidthSpinner, spinnerValueIntProperty)
-				.bind();
+        final AutoBinding<MatrixListModel, String, JLabel, String> fontDisplayBinding = Bindings.createAutoBinding(AutoBinding.UpdateStrategy.READ,
+                matrixListModel,
+                fontNameProperty,
+                fontDisplayLabel,
+                labelTextProperty);
+        fontDisplayBinding.bind();
 
-		fontChooseButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				JFontChooser fontChooser = new JFontChooser();
-				fontChooser.showFontDialog(MatrixListBuilderPanel.this,
-						"Pick a font");
-				matrixListModel.setFont(fontChooser.getSelectedFont());
-				fontDisplayBinding.unbind();
-				fontDisplayBinding.bind();
-			}
-		});
+        Bindings.createAutoBinding(AutoBinding.UpdateStrategy.READ_WRITE,
+                matrixListModel, xProperty, xSpinner,
+                spinnerValueIntProperty).bind();
+        Bindings.createAutoBinding(AutoBinding.UpdateStrategy.READ_WRITE,
+                matrixListModel, yProperty, ySpinner,
+                spinnerValueIntProperty).bind();
+        Bindings.createAutoBinding(AutoBinding.UpdateStrategy.READ_WRITE,
+                matrixListModel, sizeProperty, sizeSpinner,
+                spinnerValueIntProperty).bind();
+        Bindings.createAutoBinding(AutoBinding.UpdateStrategy.READ_WRITE,
+                matrixListModel, spacingProperty,
+                spacingSpinner, spinnerValueIntProperty)
+                .bind();
+        Bindings.createAutoBinding(AutoBinding.UpdateStrategy.READ_WRITE,
+                matrixListModel, strokeWidthProperty,
+                strokeWidthSpinner, spinnerValueIntProperty)
+                .bind();
 
-		matrixListModel.addPropertyChangeListener(new PropertyChangeListener() {
-			@Override
-			public void propertyChange(PropertyChangeEvent evt) {
-				SwingUtilities.invokeLater(new Runnable() {
-					@Override
-					public void run() {
-						printPreviewComponent.repaint();
-					}
-				});
-			}
-		});
+        uuidLabel.setText(matrixListModel.getUuid().toString().toUpperCase());
 
-		printButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				PrinterJob printerJob = PrinterJob.getPrinterJob();
-				printerJob.setJobName(matrixListModel.getTitleText());
-				printerJob.setPrintable(matrixListPrintable, pageFormat);
-				if(printerJob.printDialog()) {
-					try {
-						printerJob.print();
-					} catch (PrinterException e1) {
-						e1.printStackTrace();
-					}
-				}
-			}
-		});
-	}
+        fontChooseButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFontChooser fontChooser = new JFontChooser();
+                fontChooser.showFontDialog(MatrixListBuilderPanel.this,
+                        "Pick a font");
+                matrixListModel.setFont(fontChooser.getSelectedFont());
+                fontDisplayBinding.unbind();
+                fontDisplayBinding.bind();
+            }
+        });
+
+        matrixListModel.addPropertyChangeListener(new PropertyChangeListener() {
+            @Override
+            public void propertyChange(PropertyChangeEvent evt) {
+                SwingUtilities.invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        printPreviewComponent.repaint();
+                    }
+                });
+            }
+        });
+
+        printButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                PrinterJob printerJob = PrinterJob.getPrinterJob();
+                printerJob.setJobName(matrixListModel.getTitleText());
+                printerJob.setPrintable(matrixListPrintable, pageFormat);
+                if (printerJob.printDialog()) {
+                    try {
+                        printerJob.print();
+                    } catch (PrinterException e1) {
+                        e1.printStackTrace();
+                    }
+                }
+            }
+        });
+    }
 }

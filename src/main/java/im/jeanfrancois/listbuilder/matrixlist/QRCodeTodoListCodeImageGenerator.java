@@ -28,7 +28,7 @@ public class QRCodeTodoListCodeImageGenerator implements TodoListCodeImageGenera
     @Override
     public BufferedImage generateCodeImageForTodoListId(String todoListIdentifier) {
         try {
-            return MatrixToImageWriter.toBufferedImage(qrCodeWriter.encode(QR_CODE_URL_PREFIX + todoListIdentifier, BarcodeFormat.QR_CODE, QR_CODE_IMAGE_SIZE, QR_CODE_IMAGE_SIZE));
+            return MatrixToImageWriter.toBufferedImage(qrCodeWriter.encode(QR_CODE_URL_PREFIX + todoListIdentifier.toUpperCase(), BarcodeFormat.QR_CODE, QR_CODE_IMAGE_SIZE, QR_CODE_IMAGE_SIZE));
         } catch (WriterException e) {
             throw new RuntimeException(e);
         }
