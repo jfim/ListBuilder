@@ -12,7 +12,7 @@ import java.beans.PropertyChangeSupport;
 public class TodoListModel {
     private PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
 
-    private String titleText = "My matrix list";
+    private String titleText = "Todo List For";
     private Font font = new Font("SansSerif", 0, 24);
 
     public Font getFont() {

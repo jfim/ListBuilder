@@ -3,6 +3,9 @@ package im.jeanfrancois.listbuilder.todolist;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import net.miginfocom.swing.MigLayout;
+import org.jdesktop.beansbinding.AutoBinding;
+import org.jdesktop.beansbinding.BeanProperty;
+import org.jdesktop.beansbinding.Bindings;
 
 import javax.swing.*;
 
@@ -29,5 +32,13 @@ public class TodoListBuilderPanel extends JPanel {
         add(titleTextTextField);
         add(fontLabel);
         add(fontChooseButton);
+
+        BeanProperty<JTextField, String> textFieldTextProperty = BeanProperty.create("text");
+        BeanProperty<JLabel, String> labelTextProperty = BeanProperty.create("text");
+        BeanProperty<JSpinner, Integer> spinnerValueIntProperty = BeanProperty.create("value");
+
+        BeanProperty<TodoListModel, String> todoListModelTitleTextProperty = BeanProperty.create("titleText");
+
+        Bindings.createAutoBinding(AutoBinding.UpdateStrategy.READ_WRITE, todoListModel, todoListModelTitleTextProperty, titleTextTextField, textFieldTextProperty).bind();
     }
 }
