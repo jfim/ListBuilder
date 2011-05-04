@@ -2,6 +2,7 @@ package im.jeanfrancois.listbuilder.ui;
 
 import com.google.inject.Inject;
 import im.jeanfrancois.listbuilder.print.ResetAfterPrintPrintable;
+import im.jeanfrancois.listbuilder.print.SettablePageCountPrintable;
 import im.jeanfrancois.listbuilder.print.TitledPrintable;
 import net.miginfocom.swing.MigLayout;
 
@@ -20,6 +21,8 @@ import java.awt.print.PrinterJob;
 public class PreviewAndPrintPanel extends JPanel {
     private PrintPreviewComponent printPreviewComponent;
     private JButton printButton = new JButton();
+    private JSpinner copiesSpinner = new JSpinner(new SpinnerNumberModel(1, 1, 1000, 1));
+    private JLabel copiesLabel = new JLabel();
 
     @Inject
     public PreviewAndPrintPanel(PrintPreviewComponent printPreviewComponent, final PrinterJob printerJob, final PageFormat pageFormat, final TitledPrintable titledPrintable) {
@@ -28,6 +31,8 @@ public class PreviewAndPrintPanel extends JPanel {
         setLayout(new MigLayout("wrap 1", "[grow]", "[grow, fill][]"));
         add(printPreviewComponent, "grow");
 
+        add(copiesLabel, "span, align right, split 3");
+        add(copiesSpinner);
         add(printButton);
 
         printButton.addActionListener(new ActionListener() {
@@ -38,9 +43,13 @@ public class PreviewAndPrintPanel extends JPanel {
 
                 if (printerJob.printDialog()) {
                     try {
+                        if (titledPrintable instanceof SettablePageCountPrintable) {
+                            ((SettablePageCountPrintable) titledPrintable).setPageCount((Integer) copiesSpinner.getValue());
+                        }
+
                         printerJob.print();
 
-                        if(titledPrintable instanceof ResetAfterPrintPrintable) {
+                        if (titledPrintable instanceof ResetAfterPrintPrintable) {
                             ((ResetAfterPrintPrintable) titledPrintable).reset();
                         }
                     } catch (PrinterException e1) {
@@ -56,7 +65,6 @@ public class PreviewAndPrintPanel extends JPanel {
             @Override
             public void run() {
                 printPreviewComponent.repaint();
-                System.out.println(printButton.getName());
             }
         });
     }
