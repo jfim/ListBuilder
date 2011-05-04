@@ -10,6 +10,7 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.print.PageFormat;
+import java.awt.print.Printable;
 import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
 
@@ -25,7 +26,7 @@ public class PreviewAndPrintPanel extends JPanel {
     private JLabel copiesLabel = new JLabel();
 
     @Inject
-    public PreviewAndPrintPanel(PrintPreviewComponent printPreviewComponent, final PrinterJob printerJob, final PageFormat pageFormat, final TitledPrintable titledPrintable) {
+    public PreviewAndPrintPanel(PrintPreviewComponent printPreviewComponent, final PrinterJob printerJob, final PageFormat pageFormat, final Printable printable) {
         this.printPreviewComponent = printPreviewComponent;
 
         setLayout(new MigLayout("wrap 1", "[grow]", "[grow, fill][]"));
@@ -38,19 +39,22 @@ public class PreviewAndPrintPanel extends JPanel {
         printButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                printerJob.setJobName(titledPrintable.getTitle());
-                printerJob.setPrintable(titledPrintable, pageFormat);
+                if(printable instanceof TitledPrintable) {
+                    printerJob.setJobName(((TitledPrintable) printable).getTitle());
+                }
+
+                printerJob.setPrintable(printable, pageFormat);
 
                 if (printerJob.printDialog()) {
                     try {
-                        if (titledPrintable instanceof SettablePageCountPrintable) {
-                            ((SettablePageCountPrintable) titledPrintable).setPageCount((Integer) copiesSpinner.getValue());
+                        if (printable instanceof SettablePageCountPrintable) {
+                            ((SettablePageCountPrintable) printable).setPageCount((Integer) copiesSpinner.getValue());
                         }
 
                         printerJob.print();
 
-                        if (titledPrintable instanceof ResetAfterPrintPrintable) {
-                            ((ResetAfterPrintPrintable) titledPrintable).reset();
+                        if (printable instanceof ResetAfterPrintPrintable) {
+                            ((ResetAfterPrintPrintable) printable).reset();
                         }
                     } catch (PrinterException e1) {
                         e1.printStackTrace();

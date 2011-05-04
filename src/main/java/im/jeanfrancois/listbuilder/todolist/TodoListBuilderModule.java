@@ -17,8 +17,7 @@ public class TodoListBuilderModule extends AbstractModule {
     @Override
     protected void configure() {
         bind(AppLifecycleStarter.class).to(AppLifecycle.class);
-        bind(Printable.class).to(TitledPrintable.class);
-        bind(TitledPrintable.class).to(TodoListPrintable.class).in(Scopes.SINGLETON);
+        bind(Printable.class).to(TodoListPrintable.class).in(Scopes.SINGLETON);
         Resources.bindRootBundle(binder(), TodoListBuilderModule.class, "todolistbuilder");
     }
 }

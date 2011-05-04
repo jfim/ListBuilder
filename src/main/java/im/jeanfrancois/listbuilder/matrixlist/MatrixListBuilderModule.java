@@ -2,7 +2,6 @@ package im.jeanfrancois.listbuilder.matrixlist;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Scopes;
-import im.jeanfrancois.listbuilder.print.TitledPrintable;
 import net.guts.gui.application.AppLifecycleStarter;
 import net.guts.gui.resource.Resources;
 
@@ -19,8 +18,7 @@ public class MatrixListBuilderModule extends AbstractModule {
     protected void configure() {
         bind(AppLifecycleStarter.class).to(AppLifecycle.class);
         bind(MatrixListModel.class).in(Scopes.SINGLETON);
-        bind(Printable.class).to(TitledPrintable.class);
-        bind(TitledPrintable.class).to(MatrixListPrintable.class).in(Scopes.SINGLETON);
+        bind(Printable.class).to(MatrixListPrintable.class).in(Scopes.SINGLETON);
         Resources.bindRootBundle(binder(), MatrixListBuilderModule.class, "matrixlistbuilder");
     }
 }
