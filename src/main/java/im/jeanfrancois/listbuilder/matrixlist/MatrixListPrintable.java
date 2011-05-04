@@ -2,6 +2,7 @@ package im.jeanfrancois.listbuilder.matrixlist;
 
 import com.google.inject.Inject;
 import im.jeanfrancois.listbuilder.code.TodoListCodeImageGenerator;
+import im.jeanfrancois.listbuilder.print.ResetAfterPrintPrintable;
 import im.jeanfrancois.listbuilder.print.TitledPrintable;
 
 import java.awt.*;
@@ -15,7 +16,7 @@ import java.awt.print.PrinterException;
  *
  * @author jfim
  */
-public class MatrixListPrintable implements TitledPrintable {
+public class MatrixListPrintable implements TitledPrintable, ResetAfterPrintPrintable {
 	private MatrixListModel matrixListModel;
     private TodoListCodeImageGenerator todoListCodeImageGenerator;
 
@@ -99,5 +100,10 @@ public class MatrixListPrintable implements TitledPrintable {
     @Override
     public String getTitle() {
         return matrixListModel.getTitleText();
+    }
+
+    @Override
+    public void reset() {
+        matrixListModel.resetUniqueIdentifierRegistry();
     }
 }
