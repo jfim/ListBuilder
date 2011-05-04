@@ -2,11 +2,11 @@ package im.jeanfrancois.listbuilder.matrixlist;
 
 import com.google.inject.Inject;
 import im.jeanfrancois.listbuilder.code.TodoListCodeImageGenerator;
+import im.jeanfrancois.listbuilder.print.TitledPrintable;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.awt.print.PageFormat;
-import java.awt.print.Printable;
 import java.awt.print.PrinterException;
 
 
@@ -15,7 +15,7 @@ import java.awt.print.PrinterException;
  *
  * @author jfim
  */
-public class MatrixListPrintable implements Printable {
+public class MatrixListPrintable implements TitledPrintable {
 	private MatrixListModel matrixListModel;
     private TodoListCodeImageGenerator todoListCodeImageGenerator;
 
@@ -95,4 +95,9 @@ public class MatrixListPrintable implements Printable {
 
 		return PAGE_EXISTS;
 	}
+
+    @Override
+    public String getTitle() {
+        return matrixListModel.getTitleText();
+    }
 }
