@@ -45,6 +45,7 @@ public class MatrixListBuilderPanel extends JPanel {
     private JSpinner xSpinner = new JSpinner(new SpinnerNumberModel(1, 0, 200, 1));
     private JSpinner ySpinner = new JSpinner(new SpinnerNumberModel(1, 0, 200, 1));
     private JTextField titleTextTextField = new JTextField();
+    private JLabel uuidDescriptionLabel = new JLabel();
     private JLabel uuidLabel = new JLabel();
     private MatrixListModel matrixListModel;
     private PageFormat pageFormat;
@@ -63,12 +64,13 @@ public class MatrixListBuilderPanel extends JPanel {
 
         setLayout(new MigLayout("wrap 1", "[grow]", "[][][grow, fill][]"));
 
-        add(titleTextLabel, "split 6");
+        add(titleTextLabel, "split 7");
         add(titleTextTextField);
         add(fontLabel, "gap unrelated");
         add(fontDisplayLabel);
         add(fontChooseButton);
 
+        add(uuidDescriptionLabel, "gap unrelated");
         add(uuidLabel);
 
         add(xLabel, "split 10");
