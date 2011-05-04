@@ -6,8 +6,11 @@ import im.jeanfrancois.listbuilder.code.QRCodeTodoListCodeImageGenerator;
 import im.jeanfrancois.listbuilder.code.TodoListCodeImageGenerator;
 import im.jeanfrancois.listbuilder.common.TodoListUniqueIdentifierRegistry;
 import im.jeanfrancois.listbuilder.common.UuidBasedTodoListUniqueIdentifierRegistry;
+import im.jeanfrancois.listbuilder.print.TitledPrintable;
 import net.guts.gui.application.AppLifecycleStarter;
 import net.guts.gui.resource.Resources;
+
+import java.awt.print.Printable;
 
 /**
  * Document me!
@@ -22,6 +25,8 @@ public class MatrixListBuilderModule extends AbstractModule {
         bind(MatrixListModel.class).in(Scopes.SINGLETON);
         bind(TodoListCodeImageGenerator.class).to(QRCodeTodoListCodeImageGenerator.class);
         bind(TodoListUniqueIdentifierRegistry.class).to(UuidBasedTodoListUniqueIdentifierRegistry.class);
+        bind(Printable.class).to(TitledPrintable.class);
+        bind(TitledPrintable.class).to(MatrixListPrintable.class).in(Scopes.SINGLETON);
         Resources.bindRootBundle(binder(), MatrixListBuilderModule.class, "matrixlistbuilder");
     }
 }

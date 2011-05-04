@@ -2,7 +2,7 @@ package im.jeanfrancois.listbuilder.matrixlist;
 
 import com.google.inject.Inject;
 import com.l2fprod.common.swing.JFontChooser;
-import im.jeanfrancois.listbuilder.ui.PrintPreviewComponent;
+import im.jeanfrancois.listbuilder.ui.PreviewAndPrintPanel;
 import net.miginfocom.swing.MigLayout;
 import org.jdesktop.beansbinding.AutoBinding;
 import org.jdesktop.beansbinding.BeanProperty;
@@ -11,9 +11,6 @@ import org.jdesktop.beansbinding.Bindings;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.print.PageFormat;
-import java.awt.print.PrinterException;
-import java.awt.print.PrinterJob;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
@@ -48,21 +45,14 @@ public class MatrixListBuilderPanel extends JPanel {
     private JLabel uuidDescriptionLabel = new JLabel();
     private JLabel uuidLabel = new JLabel();
     private MatrixListModel matrixListModel;
-    private PageFormat pageFormat;
-    private PrintPreviewComponent printPreviewComponent;
 
     @Inject
     public MatrixListBuilderPanel(final MatrixListModel matrixListModel,
-                                  final MatrixListPrintable matrixListPrintable) {
+                                  final MatrixListPrintable matrixListPrintable,
+                                  final PreviewAndPrintPanel previewAndPrintPanel) {
         this.matrixListModel = matrixListModel;
 
-        PrinterJob printerJob = PrinterJob.getPrinterJob();
-        pageFormat = printerJob.defaultPage();
-        pageFormat.setOrientation(PageFormat.LANDSCAPE);
-        printPreviewComponent = new PrintPreviewComponent(matrixListPrintable,
-                pageFormat);
-
-        setLayout(new MigLayout("wrap 1", "[grow]", "[][][grow, fill][]"));
+        setLayout(new MigLayout("wrap 1", "[grow]", "[][][grow, fill]"));
 
         add(titleTextLabel, "split 7");
         add(titleTextTextField);
@@ -84,9 +74,7 @@ public class MatrixListBuilderPanel extends JPanel {
         add(strokeWidthLabel, "gap unrelated");
         add(strokeWidthSpinner);
 
-        add(printPreviewComponent, "grow");
-
-        add(printButton, "span, align right");
+        add(previewAndPrintPanel, "grow");
 
         BeanProperty<JTextField, String> textFieldTextProperty = BeanProperty.create("text");
         BeanProperty<JLabel, String> labelTextProperty = BeanProperty.create("text");
@@ -149,28 +137,7 @@ public class MatrixListBuilderPanel extends JPanel {
         matrixListModel.addPropertyChangeListener(new PropertyChangeListener() {
             @Override
             public void propertyChange(PropertyChangeEvent evt) {
-                SwingUtilities.invokeLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        printPreviewComponent.repaint();
-                    }
-                });
-            }
-        });
-
-        printButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                PrinterJob printerJob = PrinterJob.getPrinterJob();
-                printerJob.setJobName(matrixListModel.getTitleText());
-                printerJob.setPrintable(matrixListPrintable, pageFormat);
-                if (printerJob.printDialog()) {
-                    try {
-                        printerJob.print();
-                    } catch (PrinterException e1) {
-                        e1.printStackTrace();
-                    }
-                }
+                previewAndPrintPanel.updatePreview();
             }
         });
     }
