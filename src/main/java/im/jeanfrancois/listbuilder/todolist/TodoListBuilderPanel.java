@@ -2,6 +2,7 @@ package im.jeanfrancois.listbuilder.todolist;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import im.jeanfrancois.listbuilder.ui.PreviewAndPrintPanel;
 import net.miginfocom.swing.MigLayout;
 import org.jdesktop.beansbinding.AutoBinding;
 import org.jdesktop.beansbinding.BeanProperty;
@@ -24,14 +25,16 @@ public class TodoListBuilderPanel extends JPanel {
     private TodoListModel todoListModel;
 
     @Inject
-    public TodoListBuilderPanel(TodoListModel todoListModel) {
+    public TodoListBuilderPanel(TodoListModel todoListModel, PreviewAndPrintPanel previewAndPrintPanel) {
         this.todoListModel = todoListModel;
 
-        setLayout(new MigLayout());
-        add(titleTextLabel);
+        setLayout(new MigLayout("", "[grow]", "[][grow, fill]"));
+        add(titleTextLabel, "split 4");
         add(titleTextTextField);
-        add(fontLabel);
+        add(fontLabel, "gap unrelated");
         add(fontChooseButton);
+
+        add(previewAndPrintPanel, "newline, grow, span");
 
         BeanProperty<JTextField, String> textFieldTextProperty = BeanProperty.create("text");
         BeanProperty<JLabel, String> labelTextProperty = BeanProperty.create("text");
