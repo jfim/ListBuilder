@@ -9,6 +9,8 @@ import org.jdesktop.beansbinding.BeanProperty;
 import org.jdesktop.beansbinding.Bindings;
 
 import javax.swing.*;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 /**
  * Document me!
@@ -25,7 +27,7 @@ public class TodoListBuilderPanel extends JPanel {
     private TodoListModel todoListModel;
 
     @Inject
-    public TodoListBuilderPanel(TodoListModel todoListModel, PreviewAndPrintPanel previewAndPrintPanel) {
+    public TodoListBuilderPanel(TodoListModel todoListModel, final PreviewAndPrintPanel previewAndPrintPanel) {
         this.todoListModel = todoListModel;
 
         setLayout(new MigLayout("", "[grow]", "[][grow, fill]"));
@@ -35,6 +37,13 @@ public class TodoListBuilderPanel extends JPanel {
         add(fontChooseButton);
 
         add(previewAndPrintPanel, "newline, grow, span");
+
+        todoListModel.addPropertyChangeListener(new PropertyChangeListener() {
+            @Override
+            public void propertyChange(PropertyChangeEvent evt) {
+                previewAndPrintPanel.updatePreview();
+            }
+        });
 
         BeanProperty<JTextField, String> textFieldTextProperty = BeanProperty.create("text");
         BeanProperty<JLabel, String> labelTextProperty = BeanProperty.create("text");
