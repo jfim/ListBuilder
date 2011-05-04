@@ -1,4 +1,4 @@
-package im.jeanfrancois.listbuilder.matrixlist;
+package im.jeanfrancois.listbuilder.ui;
 
 import javax.swing.*;
 import java.awt.*;

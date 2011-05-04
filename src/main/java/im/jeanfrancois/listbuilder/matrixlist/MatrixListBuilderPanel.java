@@ -2,6 +2,7 @@ package im.jeanfrancois.listbuilder.matrixlist;
 
 import com.google.inject.Inject;
 import com.l2fprod.common.swing.JFontChooser;
+import im.jeanfrancois.listbuilder.ui.PrintPreviewComponent;
 import net.miginfocom.swing.MigLayout;
 import org.jdesktop.beansbinding.AutoBinding;
 import org.jdesktop.beansbinding.BeanProperty;
