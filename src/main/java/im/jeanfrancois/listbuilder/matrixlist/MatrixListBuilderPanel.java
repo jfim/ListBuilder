@@ -126,6 +126,7 @@ public class MatrixListBuilderPanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JFontChooser fontChooser = new JFontChooser();
+                fontChooser.setSelectedFont(matrixListModel.getFont());
                 fontChooser.showFontDialog(MatrixListBuilderPanel.this,
                         "Pick a font");
                 matrixListModel.setFont(fontChooser.getSelectedFont());
