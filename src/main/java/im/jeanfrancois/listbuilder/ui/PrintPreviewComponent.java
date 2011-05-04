@@ -1,5 +1,7 @@
 package im.jeanfrancois.listbuilder.ui;
 
+import com.google.inject.Inject;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.print.PageFormat;
@@ -16,6 +18,7 @@ public class PrintPreviewComponent extends JComponent {
 	private PageFormat pageFormat;
 	private Printable printable;
 
+    @Inject
 	public PrintPreviewComponent(Printable printable, PageFormat pageFormat) {
 		this.printable = printable;
 		this.pageFormat = pageFormat;
