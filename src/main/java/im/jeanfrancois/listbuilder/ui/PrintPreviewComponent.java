@@ -26,8 +26,12 @@ public class PrintPreviewComponent extends JComponent {
 
 	@Override
 	public void paint(Graphics g) {
+        g.setColor(getBackground());
+        g.fillRect(0, 0, getWidth(), getHeight());
+
+        // Fill page bounds with white
 		g.setColor(Color.WHITE);
-		g.clearRect(0, 0, getWidth(), getHeight());
+		g.fillRect(0, 0, (int)pageFormat.getWidth(), (int)pageFormat.getHeight());
 
 		// Draw page bounds
 		g.setColor(Color.GRAY);
