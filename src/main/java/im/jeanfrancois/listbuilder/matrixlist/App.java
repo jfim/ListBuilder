@@ -1,6 +1,7 @@
 package im.jeanfrancois.listbuilder.matrixlist;
 
 import com.google.inject.Module;
+import im.jeanfrancois.listbuilder.print.DefaultPrintModule;
 import net.guts.gui.application.AbstractApplication;
 import net.guts.gui.naming.ComponentNamingModule;
 
@@ -21,5 +22,6 @@ public class App extends AbstractApplication {
 	protected void initModules(String[] args, java.util.List<Module> modules) {
 		modules.add(new ComponentNamingModule());
 		modules.add(new MatrixListBuilderModule());
+        modules.add(new DefaultPrintModule());
 	}
 }
