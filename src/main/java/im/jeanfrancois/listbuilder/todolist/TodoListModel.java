@@ -1,5 +1,8 @@
 package im.jeanfrancois.listbuilder.todolist;
 
+import com.google.inject.Inject;
+import im.jeanfrancois.listbuilder.common.TodoListUniqueIdentifierRegistry;
+
 import java.awt.*;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
@@ -14,6 +17,12 @@ public class TodoListModel {
 
     private String titleText = "Todo List For";
     private Font font = new Font("SansSerif", 0, 24);
+    private TodoListUniqueIdentifierRegistry uniqueIdentifierRegistry;
+
+    @Inject
+    public TodoListModel(TodoListUniqueIdentifierRegistry uniqueIdentifierRegistry) {
+        this.uniqueIdentifierRegistry = uniqueIdentifierRegistry;
+    }
 
     public Font getFont() {
         return font;
@@ -63,5 +72,13 @@ public class TodoListModel {
         propertyChangeSupport.firePropertyChange("titleText", titleText,
                 newTitleText);
         this.titleText = newTitleText;
+    }
+
+    public void resetUniqueIdentifierRegistry() {
+        uniqueIdentifierRegistry.clearIdentifierList();
+    }
+
+    public TodoListUniqueIdentifierRegistry getUniqueIdentifierRegistry() {
+        return uniqueIdentifierRegistry;
     }
 }
