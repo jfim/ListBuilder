@@ -91,7 +91,7 @@ public class MatrixListPrintable implements Printable {
         final int yStart = (int) pageFormat.getImageableY();
         final int yEnd = (int) (pageFormat.getImageableY() + pageFormat.getImageableHeight() - matrixListModel.getY() * boxCellSize);
         final int smallestDimension = Math.min(xEnd - xStart, yEnd - yStart);
-        g2d.drawImage(todoListCodeImageGenerator.generateCodeImageForTodoListId(matrixListModel.getUuid().toString()), xStart, yEnd - smallestDimension, smallestDimension, smallestDimension, null);
+        g2d.drawImage(todoListCodeImageGenerator.generateCodeImageForTodoListId(matrixListModel.getUniqueIdentifierRegistry().getIdentifierForTodoListIndex(pageIndex).toString()), xStart, yEnd - smallestDimension, smallestDimension, smallestDimension, null);
 
 		return PAGE_EXISTS;
 	}

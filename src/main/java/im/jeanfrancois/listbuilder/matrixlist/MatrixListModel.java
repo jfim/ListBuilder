@@ -1,9 +1,11 @@
 package im.jeanfrancois.listbuilder.matrixlist;
 
+import com.google.inject.Inject;
+import im.jeanfrancois.listbuilder.common.TodoListUniqueIdentifierRegistry;
+
 import java.awt.*;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import java.util.UUID;
 
 
 /**
@@ -21,20 +23,24 @@ public class MatrixListModel {
 	private int size = 15;
 	private int spacing = 3;
 	private double strokeWidth = 1;
-    private UUID uuid = UUID.randomUUID();
+    private TodoListUniqueIdentifierRegistry uniqueIdentifierRegistry;
 
-	public double getStrokeWidth() {
+    @Inject
+    public MatrixListModel(TodoListUniqueIdentifierRegistry uniqueIdentifierRegistry) {
+        this.uniqueIdentifierRegistry = uniqueIdentifierRegistry;
+    }
+
+    public TodoListUniqueIdentifierRegistry getUniqueIdentifierRegistry() {
+        return uniqueIdentifierRegistry;
+    }
+
+    public String getDefaultUniqueIdentifier() {
+        return uniqueIdentifierRegistry.getIdentifierForTodoListIndex(0).toString();
+    }
+
+    public double getStrokeWidth() {
 		return strokeWidth;
 	}
-
-    public UUID getUuid() {
-        return uuid;
-    }
-
-    public void setUuid(UUID uuid) {
-        propertyChangeSupport.firePropertyChange("uuid", this.uuid, uuid);
-        this.uuid = uuid;
-    }
 
     public void setStrokeWidth(double newStrokeWidth) {
 		propertyChangeSupport.firePropertyChange("strokeWidth", strokeWidth, newStrokeWidth);

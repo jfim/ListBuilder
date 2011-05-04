@@ -97,6 +97,7 @@ public class MatrixListBuilderPanel extends JPanel {
         BeanProperty<MatrixListModel, Integer> sizeProperty = BeanProperty.create("size");
         BeanProperty<MatrixListModel, Integer> spacingProperty = BeanProperty.create("spacing");
         BeanProperty<MatrixListModel, Integer> strokeWidthProperty = BeanProperty.create("strokeWidth");
+        BeanProperty<MatrixListModel, String> uniqueIdentifierProperty = BeanProperty.create("defaultUniqueIdentifier");
 
         Bindings.createAutoBinding(AutoBinding.UpdateStrategy.READ_WRITE,
                 matrixListModel, titleTextProperty,
@@ -109,6 +110,9 @@ public class MatrixListBuilderPanel extends JPanel {
                 fontDisplayLabel,
                 labelTextProperty);
         fontDisplayBinding.bind();
+
+        Bindings.createAutoBinding(AutoBinding.UpdateStrategy.READ,
+                matrixListModel, uniqueIdentifierProperty, uuidLabel, labelTextProperty).bind();
 
         Bindings.createAutoBinding(AutoBinding.UpdateStrategy.READ_WRITE,
                 matrixListModel, xProperty, xSpinner,
@@ -127,8 +131,6 @@ public class MatrixListBuilderPanel extends JPanel {
                 matrixListModel, strokeWidthProperty,
                 strokeWidthSpinner, spinnerValueIntProperty)
                 .bind();
-
-        uuidLabel.setText(matrixListModel.getUuid().toString().toUpperCase());
 
         fontChooseButton.addActionListener(new ActionListener() {
             @Override
